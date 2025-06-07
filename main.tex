@@ -1,0 +1,114 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\begin{document}
+
+\section{Community testing}
+
+Louvain Modularity
+
+
+
+Optimization objectives:
+
+\begin{equation}
+Q = \frac{1}{2m} \sum_{ij} \left[ w_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+\end{equation}
+
+among
+
+\begin{align}
+m &= \frac{1}{2} \sum_{ij} w_{ij} \\
+k_i &= \sum_j w_{ij} \\
+\delta(c_i, c_j) &\text{ Community indicator function}
+\end{align}
+
+label propagation
+
+update rule
+
+\begin{equation}
+c^{(t+1)}(v) = \arg\max_{l} \sum_{u \in \Gamma(v)} w_{uv} \, \delta(l, c^{(t)}(u))
+\end{equation}
+
+
+
+
+
+
+\section{Path and similarity
+}
+
+{Shortest Path  (Dijkstra)}
+
+\begin{equation}
+d(s, t) = \min_{p \in P_{st}} \sum_{e \in p} w(e)
+\end{equation}
+
+{Where P is the set of all paths from s to t.}
+
+ node similarity(Jaccard)
+
+\begin{equation}
+\text{sim}(u, v) = \frac{|\Gamma(u) \cap \Gamma(v)|}{|\Gamma(u) \cup \Gamma(v)|}
+\end{equation}
+
+common neighbors 
+
+\begin{equation}
+\text{\textit{CN}}(u, v) = |\Gamma(u) \cap \Gamma(v)|
+\end{equation}
+
+
+
+
+
+\section{ clustering algorithm (K-Means)}
+
+objective function 
+
+\begin{equation}
+\min \sum_{k=1}^K \sum_{x \in C_k} \|x - \mu_k\|^2
+\end{equation}
+
+among
+
+\begin{itemize}
+    \item $C_k$ represents the  $kth$ cluster 
+    \item $\mu_k$ represents the center of the  $kth$ cluster 
+\end{itemize}
+
+
+
+update rule 
+
+\begin{equation}
+\mu_k = \frac{1}{|C_k|} \sum_{x \in C_k} x
+\end{equation}
+
+\section*{4       Algorithm execution process}
+
+
+Formally represented as a composite function:
+\begin{equation}
+\text{Result} = \mathcal{R} \circ \mathcal{S} \circ \mathcal{A} \circ \mathcal{P}(G)
+\end{equation}
+
+among
+
+\begin{itemize}
+    \item $\mathcal{P}: G \rightarrow G'$ projection operation for graph
+    \item $\mathcal{A}: G' \rightarrow M$ For algorithm execution($M$for the result matrix)
+    \item $\mathcal{S}: M \rightarrow \Sigma$ Collect statistical information
+    \item $\mathcal{R}: \Sigma \rightarrow \text{JSON}$ Format the results
+\end{itemize}
+
+
+
+\end{document}
+
+
+

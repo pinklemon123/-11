@@ -1,0 +1,157 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\title{JobGraph Basic definition}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Basic Definitions}
+
+Let $G = (V, E)$ be a \textbf{directed graph}, where:
+
+\begin{itemize}
+    \item $V$ is the set of vertices. Each vertex $v \in V$ has a unique identifier $id(v) \in S$, where $S$ is a set of strings.
+    \item $E \subseteq V \times V$ is the set of edges, representing dependency relationships between tasks.
+\end{itemize}
+
+\bigskip
+
+\noindent
+The graph $G$ maintained by the \texttt{JobGraph} class satisfies:
+
+\[
+G = (V, E), \quad \text{where } V \subseteq S, \quad E \subseteq V \times V
+\]
+
+\section*{2. Formal Description of Methods}
+
+\subsection*{(1) Add Vertex (\texttt{add\_vertex})}
+
+Given a vertex $v$ (identified by \texttt{id}), update the graph as follows:
+
+\[
+V' = V \cup \{v\}, \quad E' = E
+\]
+
+That is:
+
+\[
+G' = (V \cup \{v\}, E)
+\]
+
+\subsection*{(2) Get Vertex Data (\texttt{vertices\_data})}
+
+Return all vertices and their (currently empty) attributes:
+
+\[
+\texttt{vertices\_data}(G) = \{ (v, \emptyset) \mid v \in V \}
+\]
+
+
+
+\section*{3. Basic Definitions}
+
+Let $G = (V, E)$ be a \textbf{directed graph}, where:
+
+\begin{itemize}
+    \item $V$ is the set of vertices. Each vertex $v \in V$ has a unique identifier $id(v) \in S$, where $S$ is a set of strings.
+    \item $E \subseteq V \times V$ is the set of edges, representing dependencies between tasks.
+\end{itemize}
+
+The graph $G$ maintained by the \texttt{JobGraph} class satisfies:
+
+\[
+G = (V, E), \quad \text{where } V \subseteq S,\quad E \subseteq V \times V
+\]
+
+\section*{4. Formal Description of Methods}
+
+\subsection*{(1) Add Vertex (\texttt{add\_vertex})}
+
+Given a vertex $v$ (identified by \texttt{id}), update the graph as follows:
+
+\[
+V' = V \cup \{v\}, \quad E' = E
+\]
+
+That is:
+\[
+G' = (V \cup \{v\}, E)
+\]
+
+\subsection*{(2) Get Vertex Data (\texttt{vertices\_data})}
+
+Return all vertices along with their (currently empty) attributes:
+
+\[
+\texttt{vertices\_data}(G) = \{ (v, \emptyset) \mid v \in V \}
+\]
+
+\subsection*{(3) Merge Graphs (\texttt{update})}
+
+Given another graph $G_2 = (V_2, E_2)$, update the current graph as:
+
+\[
+V' = V \cup V_2,\quad E' = E \cup E_2
+\]
+
+That is:
+\[
+G' = (V \cup V_2, E \cup E_2)
+\]
+
+\subsection*{(4) Remove Vertex (\texttt{remove\_vertex})}
+
+Given a vertex $v$, update the graph as:
+
+\[
+V' = V \setminus \{v\}
+\]
+\[
+E' = E \setminus \{(u, w) \mid u = v \lor w = v \}
+\]
+
+That is, remove $v$ and all edges connected to it.
+
+\subsection*{(5) Extract Subgraph (\texttt{subgraph})}
+
+Given a subset of vertices $V_s \subseteq V$, return the subgraph:
+
+\[
+G_s = (V_s, E_s), \quad \text{where } E_s = E \cap (V_s \times V_s)
+\]
+
+\section*{5. Invariants}
+
+The graph $G$ maintained by the \texttt{JobGraph} class must always satisfy the following invariants:
+
+\begin{itemize}
+    \item \textbf{Unique Identifiers}: $\forall v_1, v_2 \in V,\; id(v_1) = id(v_2) \Rightarrow v_1 = v_2$ \\
+    (Each vertex has a unique ID.)
+    
+    \item \textbf{No Self-Loops (unless explicitly allowed)}: $\forall v \in V,\; (v, v) \notin E$ \\
+    (By default, no vertex has a self-dependency.)
+
+    \item \textbf{Acyclic (for task scheduling)}: \\
+    The dependency graph must be acyclic if used for task scheduling, i.e., $G$ must be a Directed Acyclic Graph (DAG).
+\end{itemize}
+
+\section*{6. Summary}
+
+The mathematical essence of a \texttt{JobGraph} is a \textbf{directed graph} $G = (V, E)$, and its methods correspond to standard set operations:
+
+\begin{itemize}
+    \item \textbf{Vertex operations}: union, difference, and subset operations on $V$.
+    \item \textbf{Edge operations}: union, difference, and restriction operations on $E$.
+\end{itemize}
+
+
+\end{document}

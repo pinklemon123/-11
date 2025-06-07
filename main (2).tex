@@ -1,0 +1,123 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Graph Definition in \texttt{graph.py}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+Given a \textbf{directed graph} $G = (V, E)$, where:
+
+\begin{itemize}
+    \item $V$ is the set of \textbf{vertices}, and each vertex $v \in V$ has a unique identifier (ID).
+    \item $E \subseteq V \times V$ is the set of \textbf{edges}, representing dependencies between vertices. That is, $(u, v) \in E$ means there exists a directed edge from $u$ to $v$.
+\end{itemize}
+
+\section*{1. Basic Structure}
+
+\begin{itemize}
+    \item \textbf{Vertices:} $V = \{v_1, v_2, \dots, v_n\}$
+    \item \textbf{Edges:} $E = \{(u, v) \mid u, v \in V\}$
+\end{itemize}
+
+\section*{2. Basic Operations}
+
+\begin{itemize}
+    \item \textbf{(1) Add an edge (\texttt{add\_edge}):} \\
+    $E \leftarrow E \cup \{(u, v)\}$
+
+    \item \textbf{(2) Remove an edge (\texttt{remove\_edge}):} \\
+    $E \leftarrow E \setminus \{(u, v)\}$
+
+    \item \textbf{(3) Remove a vertex (\texttt{remove\_vertex}):} \\
+    Remove vertex $v$ and all its associated edges: \\
+    $V \leftarrow V \setminus \{v\}$ \\
+    $E \leftarrow E \setminus \{(u, w) \mid u = v \lor w = v\}$
+\end{itemize}
+\begin{itemize}
+    \setcounter{enumi}{3}
+    
+    \item \textbf{(4) Predecessors and Successors (\texttt{predecessors/successors}):}
+    \begin{itemize}
+        \item \textbf{Predecessors:} \\
+        $\text{predecessors}(v) = \{ u \mid (u, v) \in E \}$
+        
+        \item \textbf{Successors:} \\
+        $\text{succ}(v) = \{ w \mid (v, w) \in E \}$
+    \end{itemize}
+    
+    \item \textbf{(5) Out-degree (\texttt{out\_degree}):} \\
+    The out-degree of vertex $v$ is defined as: \\
+    $\deg^+(v) = |\text{succ}(v)|$
+\end{itemize}
+\section*{3. Topological Sorting (Using \texttt{vertices} and \texttt{edges} Methods)}
+
+If $G$ is a directed acyclic graph (DAG), then there exists a topological order 
+$\sigma = [v_1, v_2, \dots, v_n]$ such that:
+
+\[
+\forall (v_i, v_j) \in E \implies i < j
+\]
+
+\textbf{Algorithm} (based on Kahn's algorithm or DFS):
+
+Repeatedly remove vertices with in-degree zero until the graph is empty or a cycle is detected.
+
+If $G$ contains a cycle, a topological order \textbf{does not exist}; in this case, return an arbitrary order of vertices.
+\section*{4. Subgraph}
+
+Given a subset of vertices $S \subseteq V$, the subgraph $G[S]$ is defined as:
+
+\[
+G[S] = (S, E \cap (S \times S))
+\]
+
+\section*{5. Graph Merging (\texttt{update})}
+
+Merging two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$:
+
+\[
+V \leftarrow V_1 \cup V_2
+\]
+
+\[
+E \leftarrow E_1 \cup E_2
+\]
+\section*{6. Serialization (\texttt{to\_json\_str})}
+
+Encode the graph $G$ into JSON format:
+
+\[
+\text{JSON}(G) = \{"vertices": [v_1, v_2, \dots, v_n], \quad "edges": [(u_1, v_1), (u_2, v_2), \dots]\}
+\]
+
+\section*{7. Mathematical Constraints on Abstract Methods}
+
+Subclasses must implement the following operations:
+
+\begin{enumerate}
+    \item \texttt{add\_vertex}(v, properties): \\
+    $V \leftarrow V \cup \{v\}$, and associate properties with $v$.
+    
+    \item \texttt{vertices\_data}: \\
+    Return $\{(v, \text{props}(v)) \mid v \in V\}$
+    
+    \item \texttt{remove\_vertex}(v): \\
+    $V \leftarrow V \setminus \{v\}$, \quad $E \leftarrow E \setminus \{(u, w) \mid u = v \lor w = v\}$
+\end{enumerate}
+\section*{Summary}
+
+The \texttt{Graph} class defines the following mathematical structure:
+
+\[
+G = (V, E), \quad \text{with operation set} \quad O = \{\text{add\_edge}, \text{remove\_vertex}, \text{topo\_sort}, \dots \}
+\]
+
+and constrains subclasses to extend vertex property management through abstract methods.
+
+\end{document}
